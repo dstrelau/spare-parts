@@ -9,11 +9,10 @@ namespace :db do
       end
     end
 
-    desc "Dump db to yaml. Use TABLES=x,y,z to specifiy just certain tables. Use IGNORE=a,b to exclude certain tables."
+    desc "Dump db to yaml. Use TABLES=x,y,z to specifiy just certain tables. Use IGNORE=a,b to exclude certain tables. DIR=/some/path to specify a backup directory."
     task :write => :environment do
 
-      dir = RAILS_ROOT + '/db/backup'
-      FileUtils.mkdir_p(dir)
+      dir = RAILS_ROOT + (ENV['DIR'] || '/db/backup')
       FileUtils.chdir(dir)
 
       written = []
@@ -45,10 +44,10 @@ namespace :db do
       end #each table
     end #:write
 
-    desc "Load tables from yaml backup. Use TABLES=x,y,z to specify just certain tables. Use IGNORE=a,b to exclude certain tables."
+    desc "Load tables from yaml backup. Use TABLES=x,y,z to specify just certain tables. Use IGNORE=a,b to exclude certain tables. DIR=/some/path to specify a backup directory."
     task :load => :environment do
 
-      dir = RAILS_ROOT + '/db/backup'
+      dir = ENV['DIR'] || RAILS_ROOT + '/db/backup'
       FileUtils.mkdir_p(dir)
       FileUtils.chdir(dir)
       
