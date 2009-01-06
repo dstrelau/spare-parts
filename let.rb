@@ -23,7 +23,7 @@
 # 
 # http://www.opensource.org/licenses/mit-license.php
 
-class Kernel
+module Kernel
   def let it
     yield it
   end
